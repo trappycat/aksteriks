@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your RPG Website</title>
+  <style>
+    button {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Your RPG Website</h1>
+
+  <div>
+    <h2>Create Your Character</h2>
+    <label for="character-name">Character Name:</label>
+    <input type="text" id="character-name">
+    <button onclick="createCharacter()">Create</button>
+  </div>
+
+  <div>
+    <h2>Select a Quest</h2>
+    <select id="quest-select">
+      <option value="quest-1">Quest 1</option>
+      <option value="quest-2">Quest 2</option>
+    </select>
+    <button onclick="startQuest()">Start Quest</button>
+  </div>
+
+  <div>
+    <h2>Skill Trees</h2>
+    <p>Upgrade Points: <span id="upgrade-points">0</span></p>
+    <h3>Strength</h3>
+    <button onclick="upgradeStrength()">Upgrade</button>
+    <h3>Agility</h3>
+    <button onclick="upgradeAgility()">Upgrade</button>
+  </div>
+
+  <div>
+    <h2>Battle</h2>
+    <button onclick="attack()">Attack</button>
+    <h3>Enemy Stats:</h3>
+    <p id="enemy-health">Health: 100</p>
+  </div>
+
+  <div>
+    <h2>Equipment Upgrades</h2>
+    <h3>Swords:</h3>
+    <ul id="sword-list">
+      <li onclick="selectSword('basic')">Basic Sword</li>
+      <li onclick="selectSword('advanced')">Advanced Sword</li>
+    </ul>
+    <button onclick="upgradeSword()">Upgrade Sword</button>
+    <h3>Current Sword: <span id="current-sword">Basic Sword</span></h3>
+  </div>
+
+  <script>
+    let character = null;
+    let upgradePoints = 0;
+    let currentSword = "basic";
+    let enemyHealth = 100;
+
+    function Character(name, strength, agility) {
+      this.name = name;
+      this.strength = strength;
+      this.agility = agility;
+    }
+
+    function createCharacter() {
+      const characterName = document.getElementById("character-name").value;
+      if (!characterName) {
+        return;
+      }
+      character = new Character(characterName, 1, 1);
+      console.log("Character created: ", character);
+    }
+
+    function startQuest() {
+      if (!character) {
+        console.log("Create a character first!");
+        return;
+      }
+      const selectedQuest = document.getElementById("quest-select").value;
+      console.log(character.name + " started " + selectedQuest + " quest!");
+      // Implement quest logic
+    }
+
+    function upgradeStrength() {
+      if (!character) {
+        console.log("Create a character first!");
+        return;
+      }
+      if (upgradePoints > 0) {
+        upgradePoints--;
+        document.getElementById("upgrade-points").textContent = upgradePoints;
+        character.strength++;
+        console.log(character.name + "'s strength upgraded to " + character.strength);
+      }
+    }
+
+    function upgradeAgility() {
+      if (!character) {
+        console.log("Create a character first!");
+        return;
+      }
+      if (upgradePoints > 0) {
+        upgradePoints--;
+        document.getElementById("upgrade-points").textContent = upgradePoints;
+        character.agility++;
+        console.log(character.name + "'s agility upgraded to " + character.agility);
+      }
+    }
+
+    function attack() {
+      if (!character) {
+        console.log("Create a character first!");
+        return;
+      }
+      if (enemyHealth > 0) {
+        // Reduce enemy health based on character's strength
+        const damage = character.strength * 10;
+        enemyHealth -= damage;
+        document.getElementById("enemy-health").textContent = "Health: " + enemyHealth;
+        console.log(character.name + " attacked! Enemy took " + damage + " damage.");
+  
+        if (enemyHealth <= 0) {
+          console.log("Enemy defeated!");
+          // Implement rewards or progression logic here
+        }
+      } else {
+        console.log("No more enemies to attack.");
+      }
+    }
+
+    function selectSword(sword) {
+      if (!character) {
+        console.log("Create a character first!");
+        return;
+      }
+      currentSword = sword;
+      document.getElementById("current-sword").textContent = sword;
+      console.log(character.name + " equipped " + sword + " sword.");
+    }
+
+    function upgradeSword() {
+      if (!character) {
+        console.log("Create a character first!");
+        return;
+      }
+      // Implement sword upgrade logic
+      console.log(character.name + "'s " + currentSword + " sword upgraded.");
+    }
+  </script>
+</body>
+</html>
